@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="App.css">
+</head>
+
+<body>
+    <div id="container">
+
+        <div id="stopwatch">
+            <h1>Stopwatch</h1>
+            <div id="timer" role="timer">00:00:000</div>
+            <button id="start-button">Start</button>
+            <button id="stop-button" disabled="">Stop</button>
+            <button id="reset-button" disabled="">Reset</button>
+        </div>
+
+    </div>
+    <script>
+      // Write your code here.
+// Write your code here.
+const INTERVAL=1000/60
+const startBtn=document.getElementById('start-button')
+const stopBtn=document.getElementById('stop-button')
+const resetBtn=document.getElementById('reset-button');
+const timer=document.getElementById('timer')
+let animationId,time__start=0;
+let elapsedTime=0
+function disabledBtns(start,stop,reset){
+  startBtn.disabled=start;
+  stopBtn.disabled=stop;
+  resetBtn.disabled=reset;
+}
+function startTimer(){
+  disabledBtns(true,false,true);
+  time__start=Date.now();
+  animationId=setInterval(launchTimer,INTERVAL)
+}
+function stopTimer(){
+  disabledBtns(false,true,false);
+  elapsedTime+=Date.now()-time__start
+  clearInterval(animationId)
+}
+function resetTimer(){
+  disabledBtns(false,true,true);
+  timer.textContent="00:00:000"
+  elapsedTime=0
+
+}
+function launchTimer(){
+  let miliseconds=Date.now()-time__start+elapsedTime;
+  let seconds=miliseconds/1000;
+  let min=seconds/60;
+  timer.textContent=`${Math.floor(min).toString().padStart(2,'0')}:${(Math.floor(seconds)%60).toString().padStart(2,'0')}:${(miliseconds%1000).toString().padStart(3,'0')}`
+  // animationId=requestAnimationFrame(launchTimer)
+}
+
+startBtn.addEventListener('click',startTimer)
+stopBtn.addEventListener('click',stopTimer)
+resetBtn.addEventListener('click',resetTimer)
+
+
+</script>
+</body>
+
+</html>
